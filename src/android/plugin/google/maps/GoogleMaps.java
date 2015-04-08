@@ -556,9 +556,12 @@ public class GoogleMaps extends CordovaPlugin implements View.OnClickListener, O
           if (params.has("controls")) {
             JSONObject controls = params.getJSONObject("controls");
   
+            if (controls.has("myLocation")) {
+              Boolean isEnabled = controls.getBoolean("myLocation");
+              map.setMyLocationEnabled(isEnabled);
+            }
             if (controls.has("myLocationButton")) {
               Boolean isEnabled = controls.getBoolean("myLocationButton");
-              map.setMyLocationEnabled(isEnabled);
               map.getUiSettings().setMyLocationButtonEnabled(isEnabled);
             }
             if (controls.has("indoorPicker")) {
@@ -1987,6 +1990,7 @@ public class GoogleMaps extends CordovaPlugin implements View.OnClickListener, O
     }
     plugins.clear();
     if (map != null) {
+      map.getUiSettings().setMyLocationButtonEnabled(false);
       map.setMyLocationEnabled(false);
       map.clear();
     }

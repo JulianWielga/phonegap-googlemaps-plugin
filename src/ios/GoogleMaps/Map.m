@@ -32,9 +32,16 @@
 
 - (void)setMyLocationEnabled:(CDVInvokedUrlCommand *)command {
   Boolean isEnabled = [[command.arguments objectAtIndex:1] boolValue];
-  self.mapCtrl.map.settings.myLocationButton = isEnabled;
   self.mapCtrl.map.myLocationEnabled = isEnabled;
   
+  CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)setMyLocationButtonEnabled:(CDVInvokedUrlCommand *)command {
+  Boolean isEnabled = [[command.arguments objectAtIndex:1] boolValue];
+  self.mapCtrl.map.settings.myLocationButton = isEnabled;
+
   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -374,15 +381,22 @@
         self.mapCtrl.map.settings.compassButton = NO;
       }
     }
+    //myLocation
+    if ([controls valueForKey:@"myLocation"] != nil) {
+      isEnabled = [[controls valueForKey:@"myLocation"] boolValue];
+      if (isEnabled == true) {
+        self.mapCtrl.map.myLocationEnabled = YES;
+      } else {
+        self.mapCtrl.map.myLocationEnabled = NO;
+      }
+    }
     //myLocationButton
     if ([controls valueForKey:@"myLocationButton"] != nil) {
       isEnabled = [[controls valueForKey:@"myLocationButton"] boolValue];
       if (isEnabled == true) {
         self.mapCtrl.map.settings.myLocationButton = YES;
-        self.mapCtrl.map.myLocationEnabled = YES;
       } else {
         self.mapCtrl.map.settings.myLocationButton = NO;
-        self.mapCtrl.map.myLocationEnabled = NO;
       }
     }
     //indoorPicker

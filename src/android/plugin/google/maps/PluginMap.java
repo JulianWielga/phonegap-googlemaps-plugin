@@ -48,9 +48,11 @@ public class PluginMap extends MyPlugin {
       if (controls.has("indoorPicker")) {
         settings.setIndoorLevelPickerEnabled(controls.getBoolean("indoorPicker"));
       }
+      if (controls.has("myLocation")) {
+        map.setMyLocationEnabled(controls.getBoolean("myLocation"));
+      }
       if (controls.has("myLocationButton")) {
         settings.setMyLocationButtonEnabled(controls.getBoolean("myLocationButton"));
-        map.setMyLocationEnabled(controls.getBoolean("myLocationButton"));
       }
     }
     
@@ -298,6 +300,19 @@ public class PluginMap extends MyPlugin {
     Boolean isEnabled = false;
     isEnabled = args.getBoolean(1);
     map.setMyLocationEnabled(isEnabled);
+    this.sendNoResult(callbackContext);
+  }
+
+  /**
+   * Enable MyLocationButton if set true
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setMyLocationButtonEnabled(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    Boolean isEnabled = false;
+    isEnabled = args.getBoolean(1);
     map.getUiSettings().setMyLocationButtonEnabled(isEnabled);
     this.sendNoResult(callbackContext);
   }
